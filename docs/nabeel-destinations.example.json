@@ -1,0 +1,34 @@
+{
+  "schema": "nabeel.distribution.v1",
+  "source": "rtsp://127.0.0.1:8554/nabeel",
+  "destinations": [
+    {
+      "id": "youtube",
+      "protocol": "rtmp",
+      "enabled": false,
+      "url": "rtmp://a.rtmp.youtube.com/live2/{secret}",
+      "secret_env": "NABEEL_YOUTUBE_STREAM_KEY"
+    },
+    {
+      "id": "twitch",
+      "protocol": "rtmp",
+      "enabled": false,
+      "url": "rtmp://live.twitch.tv/app/{secret}",
+      "secret_env": "NABEEL_TWITCH_STREAM_KEY"
+    },
+    {
+      "id": "facebook",
+      "protocol": "rtmp",
+      "enabled": false,
+      "url": "rtmps://live-api-s.facebook.com:443/rtmp/{secret}",
+      "secret_env": "NABEEL_FACEBOOK_STREAM_KEY"
+    },
+    {
+      "id": "custom-srt",
+      "protocol": "srt",
+      "enabled": false,
+      "url": "srt://example.invalid:9000?streamid={secret}",
+      "secret_env": "NABEEL_SRT_STREAM_ID"
+    }
+  ]
+}
