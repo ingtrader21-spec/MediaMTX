@@ -1,0 +1,31 @@
+name: NABEEL integration CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches:
+      - "pr/nabeel-*"
+
+permissions:
+  contents: read
+
+jobs:
+  nabeel-integration:
+    name: nabeel-integration
+    runs-on: [self-hosted, Linux, X64, codestra-ci, nabeel-ci]
+    timeout-minutes: 10
+    steps:
+      - name: Checkout exact source
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          persist-credentials: false
+      - name: Validate
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "${GITHUB_SHA}"
+          test -z "$(git status --porcelain)"
+          python3 -m py_compile scripts/nabeel-distribution.py
+          scripts/nabeel-distribution.py --config docs/nabeel-destinations.example.json status > /tmp/nabeel-status.json
+          python3 -m json.tool /tmp/nabeel-status.json >/dev/null
